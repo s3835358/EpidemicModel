@@ -75,8 +75,22 @@ public class StrArray {
 		return array[index];
 	}
 	
+	public int getLength() {
+		return array.length;
+	}
+	
 	public String[] getArr() {
 		return array;
+	}
+	
+	public boolean contains(String string) {
+		boolean contains = false;
+		for(String strArr : array) {
+			if(strArr.equals(string)) {
+				contains = true;
+			}
+		}
+		return contains;
 	}
 	
 	public String toString() {

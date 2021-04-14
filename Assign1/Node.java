@@ -7,15 +7,10 @@ public class Node {
     public Node(String vertex) {
     	nextNode = null;
         this.vertex = vertex;
-        state = SIRState.S;
     }
 
     public String getVertex() {
         return vertex;
-    }
-    
-    public void setVertex(String vertex) {
-        this.vertex = vertex;
     }
 
     public Node getNext() {
@@ -24,13 +19,5 @@ public class Node {
 
     public void setNext(Node nextNode) {
         this.nextNode = nextNode;
-    }
-    //Do we use state here or in map
-    public SIRState getState() {
-    	return state;
-    }
-    
-    public void setState(SIRState state) {
-    	this.state = state;
     }
 }

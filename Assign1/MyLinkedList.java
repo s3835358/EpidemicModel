@@ -9,36 +9,56 @@ public class MyLinkedList {
 		length = 0;
 	}
 	
+	/**
+	 * Adds a vertex to the list
+	 * 
+	 * @param vertex, the vertex to add
+	 */
 	public void add(String vertex) {
-		//Insert to check if valid value
-		Node add = new Node(vertex);
-		if(headNode!=null) {
-			add.setNext(headNode);
-			headNode = add;
-		} else {
-			headNode = add;
+		if(!contains(vertex)) {
+			Node add = new Node(vertex);
+			if(headNode!=null) {
+				add.setNext(headNode);
+				headNode = add;
+			} else {
+				headNode = add;
+			}
+			length++;
 		}
-		length++;
 	}
 	
+	/**
+	 * Gets a vertex from the list
+	 * 
+	 * @param index, the index of the vertex to return
+	 * 
+	 * @returns a vertex
+	 */
 	public String get(int index) {
+		Node node = null;
 		if(index < length && index >= 0) {
-			Node node = headNode;
+			node = headNode;
 			for (int i = 0; i < index; i++) {
 				node = node.getNext();
 			}
-			return node.getVertex();
 		} else {
 			throw new IndexOutOfBoundsException("Invalid index");
 		}
+		return node.getVertex();
 	}
 	
 	public int getLength() {
 		return length;		
 	}
 	
-	// Finds whether a vertex exists within list
-	public boolean search(String vertex) {
+	/**
+	 * Finds whether a vertex exists within list
+	 * 
+	 * @param vertex, the vertex to find existence of
+	 * 
+	 * @return found, a boolean value representing the existence of vertex
+	 */
+	private boolean contains(String vertex) {
 		Node node = headNode;
 		boolean found = false;
 		while(node!=null) {
@@ -50,7 +70,13 @@ public class MyLinkedList {
 		}
 		return found;		
 	}
-	
+	/**
+	 * Removes a vertex from list
+	 * 
+	 * @param vertex, the vertex to be removed
+	 * 
+	 * @return removed, boolean value representing success of removal
+	 */
 	public boolean remove(String vertex) {
 		boolean removed = false;
 		if(headNode!=null) {
@@ -74,7 +100,6 @@ public class MyLinkedList {
 				}
 			}
 		}
-		
 		return removed;
 	}
 }
