@@ -194,7 +194,7 @@ public class IncidenceMatrix extends AbstractGraph
 	    	for(String edge : edgeLabels.getArr()) {
 	    		// Find edges which vertex is incident to
 	    		
-	    		if (matrix[vertIndex][index(edge)] == INC) {
+	    		if (matrix[vertIndex][edgeMap.get(edge)] == INC) {
 	    			// Other vertex which forms edge
 	    			String vert = edge.replace(vertLabel, "");
 	    			if(k == ONE_HOP) {

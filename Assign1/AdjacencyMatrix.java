@@ -124,21 +124,30 @@ public class AdjacencyMatrix extends AbstractGraph
     	if(exists(vertLabel)) {
         	int vertRow = index(vertLabel);
         	
-        	for(int col = 0; col < matrix.length; col++) {
-        		// Find edges
-    			if(matrix[vertRow][col] == EDGE) {
-    				// Other vertex which forms edge
-    				String vert = vertLabels.getString(col);
-    				if(k == ONE_HOP) {
-    					neighbours.addString(vert);
-    				} else if (k > ONE_HOP) {
-    					// Calls function recursively
-        				StrArray add = new StrArray(kHopNeighbours(k-1, vert));
-        				add.addString(vert);
-        				neighbours.addStrArr(add.getArr(), vertLabel);
-    				}
-    			}
-    		}
+        	if(k == ONE_HOP) {
+        		for(int col = 0; col < matrix.length; col++) {
+            		// Find edges
+        			if(matrix[vertRow][col] == EDGE) {
+        				// Other vertex which forms edge
+        				String vert = vertLabels.getString(col);
+        				neighbours.addString(vert);
+        			}
+        		}
+				
+			} else if (k > ONE_HOP) {
+				for(int col = 0; col < matrix.length; col++) {
+	        		// Find edges
+	    			if(matrix[vertRow][col] == EDGE) {
+	    				// Other vertex which forms edge
+	    				String vert = vertLabels.getString(col);
+	    				// Calls function recursively
+	    				StrArray add = new StrArray(kHopNeighbours(k-1, vert));
+	    				add.addString(vert);
+	    				neighbours.addStrArr(add.getArr(), vertLabel);
+	    			}
+	    		}
+				
+			}
     	} else {
     		System.err.println("ERROR: Vertex does not exist");
     	}
