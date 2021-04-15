@@ -1,6 +1,5 @@
 import java.io.PrintWriter;
 import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Incidence matrix implementation for the GraphInterface interface.
@@ -12,10 +11,11 @@ import java.util.Map;
 public class IncidenceMatrix extends AbstractGraph
 {
 
-	final private int NOT_INC = 0, INC = 1, VERT_ONE = 0, VERT_TWO = 1;
+	final private int NOT_INC = 0, INC = 1;
 	
 	// Allows quick access to edge label strings
 	private StrArray edgeLabels;
+	private IndexMap edgeMap;
 	
 	/**
 	 * Contructs empty graph.
@@ -23,6 +23,7 @@ public class IncidenceMatrix extends AbstractGraph
     public IncidenceMatrix() {
     	matrix = new int[0][0];
     	indexMap = new IndexMap();
+    	edgeMap = new IndexMap();
     	stateMap = new HashMap<String, SIRState>();
     	vertLabels = new StrArray();
     	edgeLabels = new StrArray();
@@ -96,7 +97,7 @@ public class IncidenceMatrix extends AbstractGraph
 		    	
 		    	// Update map and StrArray
 		    	edgeLabels.addString(edgeLabel);
-		    	indexMap.put(edgeLabel, cols);
+		    	edgeMap.put(edgeLabel, cols);
     		}
     	} else {
     		System.err.println("ERROR: One or both vertices do not exist or are identical");
@@ -126,7 +127,7 @@ public class IncidenceMatrix extends AbstractGraph
 	    	
 	    	for(int row = 0; row < rows; row++) {
 	    		for(int col = 0; col < cols; col++) {
-	    			if(col >= index(edge)) {
+	    			if(col >= edgeMap.get(edge)) {
 	    				matrix[row][col] = temp[row][col + 1];
 	    			} else {
 	    				matrix[row][col] = temp[row][col];
@@ -134,7 +135,7 @@ public class IncidenceMatrix extends AbstractGraph
 	    		}
 	    	}
 	    	// Update map
-	    	indexMap.adjustKeys(edge, false);
+	    	edgeMap.adjustKeys(edge);
     	} else {
     		System.err.println("ERROR: Edge does not exist");
     	}
@@ -148,6 +149,7 @@ public class IncidenceMatrix extends AbstractGraph
 			int rows = vertLabels.getLength(),
 			cols = edgeLabels.getLength();			
 			int[][] temp = matrix;
+			
 			
 			// Resize matrix, re-assign values within loop
 	    	matrix = new int[rows][cols];
@@ -163,15 +165,21 @@ public class IncidenceMatrix extends AbstractGraph
 	    	}   	
 
 	    	// Delete edges containing vertex
-	    	for(String edge : edgeLabels.getArr()) {
-	    		if (edge.contains(vertLabel)) {
-	    			String vertOne = edge.substring(VERT_ONE, VERT_TWO),
-	    			vertTwo = edge.substring(VERT_TWO);
-	    			deleteEdge(vertOne, vertTwo);
-	    		}
-	    	}
+	    	StrArray eVerts = new StrArray();
+	    	
+    		for(int col = 0; col < cols; col++) {
+    			if(temp[index(vertLabel)][col] == INC) {
+    				String edge = edgeMap.getKey(col);
+    				// Remove vertLabel from edge to find "vertTwo"
+    				eVerts.addString(edge.replace(vertLabel, ""));
+    			}
+    		}
+    		for(String eVert : eVerts.getArr()) {
+    			deleteEdge(vertLabel, eVert);
+    		}
+	    	
 	    	// Update maps
-	    	indexMap.adjustKeys(vertLabel, true);
+	    	indexMap.adjustKeys(vertLabel);
 	    	stateMap.remove(vertLabel);
     	}
     } // end of deleteVertex()
@@ -210,11 +218,21 @@ public class IncidenceMatrix extends AbstractGraph
     // and therefore edges contain two characters ie. 'A' is a valid vertex, 'A1' is not
     
     public void printEdges(PrintWriter os) {
-    	for(String edge: edgeLabels.getArr()) {
-    		os.write(edge.charAt(VERT_ONE) + " " + edge.charAt(VERT_TWO) + "\n");
-    		os.write(edge.charAt(VERT_TWO) + " " + edge.charAt(VERT_ONE) + "\n");
+    	for(int col = 0; col < edgeLabels.getLength(); col++) {
+    		String vertOne = null;
+    		for(int row = 0; row < vertLabels.getLength(); row++) {
+    			if(vertOne == null && matrix[row][col] == INC) {
+    				vertOne = vertLabels.getString(row);
+    			} else if (matrix[row][col] == INC) {
+    				String vertTwo = vertLabels.getString(row);
+    				os.write(vertOne + " " + vertTwo + "\n");
+    	    		os.write(vertTwo + " " + vertOne + "\n");
+    			}
+    		}
     	}
+    	
     	os.flush();
     }
+    
 
 } // end of class IncidenceMatrix

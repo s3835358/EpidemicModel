@@ -1,7 +1,5 @@
 import java.io.PrintWriter;
 import java.util.HashMap;
-// import java.util.*;
-import java.util.Map;
 
 /**
  * Adjacency list implementation for the AssociationGraph interface.
@@ -91,7 +89,7 @@ public class AdjacencyList extends AbstractGraph
     			vArray[i].remove(vertLabel);
     		}
     		// Update maps and StrArray
-    		indexMap.adjustKeys(vertLabel, true);
+    		indexMap.adjustKeys(vertLabel);
     		vertLabels.delString(vertLabel);
     		stateMap.remove(vertLabel);
     	} else {

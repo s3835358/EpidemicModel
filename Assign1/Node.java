@@ -2,7 +2,6 @@ public class Node {
 	
 	private Node nextNode;
     private String vertex;
-    private SIRState state;
     
     public Node(String vertex) {
     	nextNode = null;

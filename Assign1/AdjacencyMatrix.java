@@ -1,6 +1,5 @@
 import java.io.PrintWriter;
 import java.util.HashMap;
-import java.util.Map;
 
 
 /**
@@ -112,7 +111,7 @@ public class AdjacencyMatrix extends AbstractGraph
 	    	}
 	    	// Update maps and StrArray
 	    	vertLabels.delString(vertLabel);
-	    	indexMap.adjustKeys(vertLabel, true);
+	    	indexMap.adjustKeys(vertLabel);
 	    	stateMap.remove(vertLabel);
     	} else {
     		System.err.println("ERROR: One or both vertices do not exist");
