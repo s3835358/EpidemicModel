@@ -1,5 +1,7 @@
 # EpidemicModel
 
+Developed by: Declan Baker 
+
 Java program that simulates the spread of a virus through a community where the community is represented either as a adjacency list, adjacency matrix or incidence matrix based on user input.
 
 Such data strcutures are all implemented in their own class using primative structures and the program does not rely upon the respective java.util libraries.
