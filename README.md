@@ -1,4 +1,4 @@
-# algAssign01
+# EpidemicModel
 
 Java program that simulates the spread of a virus through a community where the community is represented either as a adjacency list, adjacency matrix or incidence matrix based on user input.
 
