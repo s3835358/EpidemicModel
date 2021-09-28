@@ -4,6 +4,8 @@ Developed by: Declan Baker
 
 Java program that simulates the spread of a virus through a community where the community is represented either as a adjacency list, adjacency matrix or incidence matrix based on user input.
 
+Created an additional data generation tool to automate the configuration of each simulation and test scenarios requiring large-scale networks
+
 Such data strcutures are all implemented in their own class using primative structures and the program does not rely upon the respective java.util libraries.
 
 As such, each data structure may be analysed for efficiency, and the degree to which it is appropriate for each task.
